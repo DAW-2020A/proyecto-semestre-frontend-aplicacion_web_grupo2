@@ -24,7 +24,7 @@ const Login = () => {
       console.log( 'response login', response );
 
       localStorage.setItem( 'login', JSON.stringify( true ) ); // this is to sync auth state in local storage
-      Cookies.set( 'token', response.data.token, { expires: 1 } );
+      Cookies.set( 'token', response.data.token, { expires: 60 } );
       API.headers[ 'Authorization' ] = 'Bearer ' + response.data.token; // start sending authorization header
       setCurrentUser( response.data.user );
       setAuthenticated( true );

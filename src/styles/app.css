@@ -31,14 +31,14 @@ body {
 }
 
 .logo {
-    height: 32px;
-//min-width: 120px;
+    height: 80px;
+//min-width: 110px;
     /*background-image: url('../imgs/logo.png');*/
     /*!*background-color: #00aeef;*!*/
     /*background-repeat: no-repeat;*/
     /*background-size: contain;*/
     /*background-position: center;*/
-    margin: 16px;
+    margin: 14px;
 }
 
 .ant-layout-header {
@@ -65,9 +65,6 @@ body {
     color: #00aeef;
 }
 
-.main-menu {
-    display: none;
-}
 
 .responsive-menu-button {
     display: block;
@@ -169,9 +166,17 @@ code {
     text-align: left;
 }
 
+.logos-social-header {
+    margin-top: 12px;
+}
+
+.indexImg {
+    size: 200px;
+}
+
 @media (min-width: 768px) {
 
-    .main-menu {
+    .main-buttons {
         display: block;
     }
 

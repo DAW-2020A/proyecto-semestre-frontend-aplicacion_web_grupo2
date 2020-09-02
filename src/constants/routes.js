@@ -12,8 +12,8 @@ const publicRoutes = {
   ABOUT: '/acerca-de',
   ANTD: '/antd',
   PROFILE: '/perfil',
-  HOME_TEACHER: '/mi-cuenta'
-
+  HOME_TEACHER: '/mi-cuenta',
+  HOME_STUDENT:'/cuenta'
 };
 
 const privateRoutes = {

@@ -29,6 +29,7 @@ const AsyncArticle = loadable( () => import( '../pages/Article' ), loadableOptio
 const AsyncAbout = loadable( () => import( '../pages/About' ), loadableOptions );
 const AsyncLogout = loadable( () => import( '../pages/Logout' ), loadableOptions );
 const AsyncProfile = loadable( () => import( '../pages/Profile' ), loadableOptions );
+const AsyncHomeTeacher = loadable( () => import( '../pages/TeacherHomePage' ), loadableOptions );
 
 
 /**
@@ -50,6 +51,7 @@ const AppRouter = () => (
     <PublicRoute path={ Routes.ARTICLES } component={ AsyncArticles } />
     <PublicRoute path={ Routes.ABOUT } component={ AsyncAbout } />
     <PublicRoute path={ Routes.PROFILE } component={ AsyncProfile } />
+    <PublicRoute path={ Routes.HOME_TEACHER} component={ AsyncHomeTeacher } />
 
     <PrivateRoute path={ Routes.PRIVATE } component={ AsyncPrivate } />
     <PrivateRoute path={ Routes.ARTICLE_ID } component={ AsyncArticle } />

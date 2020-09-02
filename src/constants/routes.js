@@ -11,7 +11,8 @@ const publicRoutes = {
   HOME: '/',
   ABOUT: '/acerca-de',
   ANTD: '/antd',
-  PROFILE: '/perfil'
+  PROFILE: '/perfil',
+  HOME_TEACHER: '/mi-cuenta'
 
 };
 

@@ -40,6 +40,7 @@ const MainLayout = props => {
                 <Col md={ 14 } align='right' className='main-buttons'>
                   <Button type="primary" style={{margin: 8}}>Iniciar Sesión</Button>
                   <Button type="primary" style={{margin: 8}}><Link to={Routes.REGISTER}>Registrarse</Link></Button>
+                  <Button type="primary" style={{margin: 8}}><Link to={Routes.HOME_TEACHER}>Página Docente</Link></Button>
                 </Col>
 
               </Row>

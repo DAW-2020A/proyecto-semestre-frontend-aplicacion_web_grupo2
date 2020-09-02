@@ -41,6 +41,7 @@ const MainLayout = props => {
                   <Button type="primary" style={{margin: 8}}>Iniciar Sesión</Button>
                   <Button type="primary" style={{margin: 8}}><Link to={Routes.REGISTER}>Registrarse</Link></Button>
                   <Button type="primary" style={{margin: 8}}><Link to={Routes.HOME_TEACHER}>Página Docente</Link></Button>
+                  <Button type="primary" style={{margin: 8}}><Link to={Routes.HOME_STUDENT}>Página Estudiante</Link></Button>
                 </Col>
 
               </Row>

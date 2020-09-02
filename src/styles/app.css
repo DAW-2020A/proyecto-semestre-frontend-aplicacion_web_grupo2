@@ -133,7 +133,7 @@ code {
     /*text-align: center;*/
     padding: 30px 20px;
     min-height: 200px;
-    background-color: #2e2a25ee;
+    background-color: #000000;
     color: #ffffff;
 }
 
@@ -217,7 +217,7 @@ code {
     .footer {
         padding: 30px 100px;
         min-height: 200px;
-        background-color: #2e2a25ee;
+        background-color: #000000;
         color: #ffffff;
     }
 

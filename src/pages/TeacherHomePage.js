@@ -1,50 +1,41 @@
 import React from 'react';
-import {Button, Col, Row, Typography, List, Avatar, Divider, Input} from "antd";
-import { PlusOutlined, ArrowLeftOutlined, CopyOutlined} from '@ant-design/icons';
+import {Button, Col, Row, Typography, List, Avatar,Alert} from "antd";
+import {PlusOutlined} from '@ant-design/icons';
 import '../styles/teacherhome.css';
+import signatures from '../images/signatures.svg';
 
 const TeacherHomePage = () => {
-    const { Text, Link, Title } = Typography;
+    const {  Title } = Typography;
 
     const data = [
         {
-            title: 'Estudiante 1',
+            title: 'Desarrollo de Aplicaciones Web',
         },
         {
-            title: 'Estudiante 2',
+            title: 'Desarrollo de Software',
         },
         {
-            title: 'Estudiante 3',
-        },
-        {
-            title: 'Estudiante 4',
+            title: 'Diseño de Interfaces',
         },
     ];
-    const data1 = [
-        'Prueba 1',
-        'Prueba 2',
-        'Examen 1',
-    ];
-
 
     return (
         <>
             <div className={"title"}>
             <Row>
-                <Col span={4}>
-                    <Button type="text" icon={<ArrowLeftOutlined />}>Regresar</Button>
+                <Col span={4}> </Col>
+                <Col span={12}>
+                    <Title level={2} style={{color:'#ff4d4f'}} >Lista de Cursos/Materia</Title>
                 </Col>
-
-                <Col span={20}>
-                    <Title level={2} >Nombre del curso 1</Title>
+                <Col span={4}>
+                    <Button type="danger" icon={<PlusOutlined />}>
+                        Crear nuevo Curso
+                    </Button>
                 </Col>
             </Row>
             </div>
             <Row>
-                <Col span={4}>
-                    <Title level={5} ><center>Código de materia</center></Title>
-                    <Input addonAfter={<CopyOutlined />} placeholder="124432" disabled/>
-                </Col>
+                <Col span={4}> </Col>
                 <Col span={12}>
                     <div className={'teacher'}>
                         <List
@@ -53,7 +44,7 @@ const TeacherHomePage = () => {
                             renderItem={item => (
                                 <List.Item>
                                     <List.Item.Meta
-                                        avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+                                        avatar={<Avatar src={signatures} />}
                                         title={<a href="https://ant.design">{item.title}</a>}
                                     />
                                 </List.Item>
@@ -61,38 +52,9 @@ const TeacherHomePage = () => {
                         />
                     </div>
                 </Col>
-                <Col span={8}>
-                    <Divider orientation="left">Evaluaciones</Divider>
-                    <List
-                        size="small"
-                        dataSource={data1}
-                        renderItem={item =>
-
-                            <List.Item>
-                            <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-                            <Col className="gutter-row" span={10}>{item}</Col>
-                            <Col className="gutter-row" span={6}>
-                        <Text type="primary">ver</Text>
-                            </Col>
-                            <Col className="gutter-row" span={8}>
-                        <Link>Editar</Link>
-                                <br/>
-                        <Link>Ver Notas</Link>
-                            </Col>
-                        </Row>
-                        </List.Item>
-
-                        }
-                    />
-                    <div className={"botones"}>
-                    <Button>Ver mas</Button>
-                        <br/>
-                        <br/>
-                    <Button type="primary" danger icon={<PlusOutlined />}>
-                        Crear Evaluación
-                    </Button>
-                    </div>
-                </Col>
+            </Row>
+            <Row align={'center'}>
+                <Alert message="Haz click en un curso para ver la información" type="info" showIcon />
             </Row>
             </>
     );

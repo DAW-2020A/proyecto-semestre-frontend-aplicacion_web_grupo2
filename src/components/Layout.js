@@ -34,11 +34,11 @@ const MainLayout = props => {
               <Row type='flex' justify='space-between' align='bottom'>
                 <Col xs={ 24 } md={ 6 } className='logo-wrapper'>
                   <a href={ process.env.REACT_APP_DOMAIN }>
-                    <img className='logo' src={ logo } alt='Trial Q' /></a>
+                      <Link to={Routes.HOME}><img className='logo' src={ logo } alt='Trial Q' /></Link></a>
                 </Col>
 
                 <Col md={ 14 } align='right' className='main-buttons'>
-                  <Button type="primary" style={{margin: 8}}>Iniciar Sesión</Button>
+                  <Button type="primary" style={{margin: 8}}><Link to={Routes.LOGIN}>Iniciar Sesión</Link></Button>
                   <Button type="primary" style={{margin: 8}}><Link to={Routes.REGISTER}>Registrarse</Link></Button>
                   <Button type="primary" style={{margin: 8}}><Link to={Routes.HOME_TEACHER}>Página Docente</Link></Button>
                   <Button type="primary" style={{margin: 8}}><Link to={Routes.HOME_STUDENT}>Página Estudiante</Link></Button>

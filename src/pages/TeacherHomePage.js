@@ -1,62 +1,104 @@
-import React from 'react';
-import {Button, Col, Row, Typography, List, Avatar,Alert} from "antd";
+import React, {useState} from 'react';
+import {Button, Col, Row, Typography, List, Avatar, Alert, message} from "antd";
 import {PlusOutlined} from '@ant-design/icons';
 import '../styles/teacherhome.css';
 import signatures from '../images/signatures.svg';
+import {translateMessage} from "../utils/translateMessage";
+import {useAuth} from '../providers/Auth';
+import ModalNewCourse from "../components/ModalNewCourse";
+import {mutate} from "swr";
+import API from "../data";
+import CoursesList from "../components/CoursesList";
+import {useParams} from "react-router-dom";
+
+
+//import {useCourse} from "../data/useCourse";
+//import {useTeacherCourse} from "../data/useTeacherCourse";
+
+
+export const fetchCourses = async() => {
+    // console.log( `Show data fetched. Articles: ${ JSON.stringify( articles ) }` );
+
+    return await API.get( '/courses' );
+};
 
 const TeacherHomePage = () => {
-    const {  Title } = Typography;
+   // let { id } = useParams();
+  //  const user = useCourse( id );
+   // const courses = useTeacherCourse( id );
+    const {Title} = Typography;
+    const auth=useAuth();
+    const [showModalNewCourse, setShowModalNewCourse] = useState(false);
 
-    const data = [
-        {
-            title: 'Desarrollo de Aplicaciones Web',
-        },
-        {
-            title: 'Desarrollo de Software',
-        },
-        {
-            title: 'Diseño de Interfaces',
-        },
-    ];
 
+    const afterCreate = async () => {
+        try {
+            // show skeleton
+            await mutate('/courses', async courses => {
+                return {data: [{}, ...courses.data]};
+            }, false);
+
+            await mutate('/courses');
+            setShowModalNewCourse(false); // close the modal
+        } catch (error) {
+            console.error(
+                'You have an error in your code or there are Network issues.',
+                error
+            );
+
+            message.error(translateMessage(error.message));
+        }
+    };
     return (
         <>
+
             <div className={"title"}>
-            <Row>
-                <Col span={4}> </Col>
-                <Col span={12}>
-                    <Title level={2} style={{color:'#ff4d4f'}} >Lista de Cursos/Materia</Title>
-                </Col>
-                <Col span={4}>
-                    <Button type="danger" icon={<PlusOutlined />}>
-                        Crear nuevo Curso
-                    </Button>
-                </Col>
-            </Row>
+                <Row>
+                    <Col span={4}> </Col>
+                    <Col span={12}>
+                        <Title level={2} style={{color: '#ff4d4f'}}>Lista de Cursos/Materia</Title>
+
+                    </Col>
+
+                    <Col span={4}>
+                        {
+                            auth.isAuthenticated &&
+                            <Button
+                                type="danger"
+                                icon={<PlusOutlined/>}
+                                onClick={() => {
+                                    setShowModalNewCourse(true);
+                                }}>
+                                Crear nuevo Curso
+                            </Button>
+                        }
+
+                    </Col>
+
+                </Row>
             </div>
             <Row>
                 <Col span={4}> </Col>
                 <Col span={12}>
                     <div className={'teacher'}>
-                        <List
-                            itemLayout="horizontal"
-                            dataSource={data}
-                            renderItem={item => (
-                                <List.Item>
-                                    <List.Item.Meta
-                                        avatar={<Avatar src={signatures} />}
-                                        title={<a href="https://ant.design">{item.title}</a>}
-                                    />
-                                </List.Item>
-                            )}
-                        />
+                        <CoursesList />
                     </div>
                 </Col>
+
             </Row>
             <Row align={'center'}>
-                <Alert message="Haz click en un curso para ver la información" type="info" showIcon />
+                <Alert message="Haz click en un curso para ver la información" type="info" showIcon/>
             </Row>
-            </>
+            <ModalNewCourse
+                show={showModalNewCourse}
+                close={ () => {
+                    setShowModalNewCourse( false );
+                } }
+                update={false}
+                onSubmit={afterCreate}
+            />
+        </>
+
     );
 }
 

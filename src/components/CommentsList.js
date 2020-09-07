@@ -89,9 +89,9 @@ const CommentsList = ( { comments, articleId } ) => {
             return (
               <Comment
                 // actions={ item.actions }
-                author={ item.author }
-                content={ item.content }
-                datetime={ item.datetime }
+                title={ item.name }
+                description={ item.created_at }
+
               />
             );
           } else {
@@ -106,20 +106,20 @@ const CommentsList = ( { comments, articleId } ) => {
 export default CommentsList;
 
 const processCommentsData = ( comments ) => {
-  return comments.map( ( comment ) => {
-    console.log( 'comment', comment );
-    if( comment.text ) {
-      return ({
-        // actions: [ <span key='comment-list-reply-to-0'>Reply to</span> ],
-        author: <Link to={ Routes.USERS_ID }>{ comment.user_data.name }</Link>,
-        avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-        content: <p>{ comment.text }</p>,
-        datetime: <Tooltip title={ moment( comment.created_at ).format( 'YYYY-MM-DD HH:mm:ss' ) }>
-          <span>{ moment( comment.created_at ).fromNow() }</span>
-        </Tooltip>,
-      });
-    } else {
-      return {};
-    }
-  } );
+    return comments.map( ( comment ) => {
+        console.log( 'comment', comment );
+        if( comment.text ) {
+            return ({
+                // actions: [ <span key='comment-list-reply-to-0'>Reply to</span> ],
+                author: <Link to={ Routes.USERS_ID }>{ comment.user_data.name }</Link>,
+                avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+                content: <p>{ comment.text }</p>,
+                datetime: <Tooltip title={ moment( comment.created_at ).format( 'YYYY-MM-DD HH:mm:ss' ) }>
+                    <span>{ moment( comment.created_at ).fromNow() }</span>
+                </Tooltip>,
+            });
+        } else {
+            return {};
+        }
+    } );
 };

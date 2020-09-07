@@ -1,26 +1,41 @@
-import React from 'react';
+import React,{useState} from 'react';
 import Routes from '../constants/routes';
 import API from '../data/index';
-import {Button, Col, Form, Input, message, Row, Typography} from 'antd';
-import {LockOutlined, UserOutlined, MailOutlined, EditOutlined, FileTextOutlined} from '@ant-design/icons';
+import {Button, Col, Form, Input, message, Modal, Row, Typography} from 'antd';
+import {LockOutlined, UserOutlined, MailOutlined, EditOutlined, FileTextOutlined,CloseOutlined} from '@ant-design/icons';
 import ErrorList from '../components/ErrorList';
 import {translateMessage} from '../utils/translateMessage';
 import withoutAuth from '../hocs/withoutAuth';
 import '../styles/register.css';
 import {Link} from 'react-router-dom';
+import students from '../images/studying.png';
+import teachers from '../images/education-teacher.png';
 import Cookies from 'js-cookie';
 import {useAuth} from '../providers/Auth';
 import {EyeInvisibleOutlined, EyeTwoTone} from '@ant-design/icons/lib';
 
 const {Title} = Typography;
 
-const TeacherRegister = () => {
+const Register = () => {
+    // const auth = useAuth();
+    // const router = useRouter();
+
+    // React.useEffect( () => {
+    //   const checkAuthentication = () => {
+    //     console.log( 'auth.token', auth );
+    //     if( auth.token ) {
+    //       router.push( Routes.HOME );
+    //     }
+    //   };
+    //
+    //   checkAuthentication();
+    // }, [ auth ] );
 
     const {setAuthenticated, setCurrentUser} = useAuth();
 
     const onFinish = async (userData) => {
         console.log('Received values of form: ', userData);
-        const {name, email,lastname, password, password_confirmation} = userData;
+        const {name, email,lastname, password, password_confirmation,role} = userData;
 
         try {
             const user = await API.post('/register', {
@@ -29,6 +44,7 @@ const TeacherRegister = () => {
                 email,
                 password,
                 password_confirmation,
+                role,
             });
 
             console.log('User', user);
@@ -46,11 +62,49 @@ const TeacherRegister = () => {
             message.error(<>{translateMessage(e.message)}{errorList}</>);
         }
     };
+    const [role, setRole] = useState(null);
+    const [show, setShow] = useState(true);
+
+    const handleStudent = () => {
+        let roleuser='ROLE_STUDENT'
+        setRole(roleuser);
+        setShow(false);
+        console.log(role);
+    };
+    const handleTeacher = () =>{
+        let roleuser='ROLE_TEACHER'
+        setShow(false);
+        setRole(roleuser);
+        console.log(role);
+    }
 
     return (
         <>
-            <Title style={{textAlign: 'center'}}>Registro</Title>
+            <Modal
+                visible={ show }
+                title='Bienvenido A Trial Q'
+                closable={false}
+                footer={null}
+            >
 
+                <div style={{textAling: 'center'}}>
+                    <h2>Dinos quién Eres</h2>
+                </div>
+                <div>
+                    <button className='student' ><img  alt='Students' src={ students } onClick={handleStudent}/></button>
+                    <button className='teacher' ><img  alt='Teachers' src={ teachers } onClick={handleTeacher}/></button>
+                </div>
+                <div style={{textAlign: 'center'}}>
+                    <Row>
+                        <Col span={10}><h3>Soy Estudiante</h3></Col>
+                        <Col span={14}><h3>Soy Maestro</h3></Col>
+                    </Row>
+                </div>
+                <div style={{textAlign: 'center'}}>
+                    <Button type="primary" style={{margin: 8}}><Link to={Routes.HOME}>Cancelar</Link></Button>
+                </div>
+            </Modal>
+            <Title style={{textAlign: 'center'}}>Registro</Title>
             <Row justify='center' className='login'>
                 <Col span={8}>
                     <Form name='register-form'
@@ -138,12 +192,9 @@ const TeacherRegister = () => {
 
                         <Form.Item>
                             <Button type='primary' htmlType='submit' className='login-form-button'>
-                                Regresar
-                            </Button>
-                            <Button style={{marginLeft:'270px'}} type='primary' htmlType='submit' className='login-form-button'>
                                 Registrarme
                             </Button>
-                            <div style={{marginLeft:'320px'}}><Link to={Routes.LOGIN}>Ya tengo una cuenta</Link></div>
+                            <div><Link to={ Routes.LOGIN }>Ya tengo una cuenta</Link></div>
                         </Form.Item>
                     </Form>
                 </Col>
@@ -152,4 +203,4 @@ const TeacherRegister = () => {
     );
 };
 
-export default withoutAuth(TeacherRegister);
+export default withoutAuth(Register);

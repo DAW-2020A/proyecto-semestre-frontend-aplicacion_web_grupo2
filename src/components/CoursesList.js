@@ -103,6 +103,7 @@ const CourseList = (props) => {
             {
                 courses.map( ( course, i ) => (
                     info  && course.user_id === info.id ?
+            <div>
             <Menu
                 key={i}
                 onClick={handleClick}
@@ -123,6 +124,8 @@ const CourseList = (props) => {
                 ))}
                 </SubMenu>
             </Menu>
+             <br/>
+             </div>
              :''
                 ))
             }

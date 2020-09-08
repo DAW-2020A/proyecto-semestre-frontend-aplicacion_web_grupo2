@@ -9,6 +9,8 @@ import imgTeaching from "../images/teaching.svg";
 import "../styles/home.css";
 import imgExams from "../images/exam.svg";
 import {PlusOutlined} from '@ant-design/icons';
+import Routes from "../constants/routes";
+import {Link} from "react-router-dom";
 
 const HomePage = () => {
     /*const articles = useArticleList();*/
@@ -24,7 +26,7 @@ const HomePage = () => {
                         tus estudiantes
                     </h1>
 
-                    <Button type="primary" size="large">Crear tu primera clase</Button>
+                    <Button type="primary" size="large"><Link to={Routes.REGISTER}>Crear tu primera clase</Link></Button>
                 </Col>
 
                 <Col xs={24} md={6} className='logo-wrapper'>
@@ -139,7 +141,7 @@ const HomePage = () => {
                         <Image src={imgExams}/>
                     </Col>
                     <Col span={6}>
-                        <Button type="danger" icon={<PlusOutlined/>}>Crear tu primera evaluación</Button>
+                        <Link to={Routes.REGISTER}><Button type="danger" icon={<PlusOutlined/>}>Crear tu primera evaluación</Button></Link>
                     </Col>
                 </Row>
             </div>

@@ -8,7 +8,7 @@ import {useAuth} from '../providers/Auth';
 import ModalNewCourse from "../components/ModalNewCourse";
 import {mutate} from "swr";
 import API from "../data";
-import CoursesList from "../components/CoursesList";
+import CoursesList from "../components/CoursesListTeacher";
 import {useParams} from "react-router-dom";
 import task from "../images/task.svg";
 

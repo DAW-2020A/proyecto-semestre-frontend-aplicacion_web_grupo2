@@ -2,9 +2,12 @@ import React, {useState} from 'react';
 import {Button, Col, Image, Menu, Popover, Row, Typography} from "antd";
 import {SettingOutlined, AlertTwoTone, AndroidOutlined, PlusCircleOutlined, PlusOutlined} from "@ant-design/icons";
 import task from "../images/task.svg";
-import CoursesList from "../components/CoursesList";
+import CourseListStudent from "../components/CourseListStudent";
 import {useAuth} from "../providers/Auth";
 import ModalAddCourse from "../components/ModalAddCourse";
+import {mutate} from "swr";
+import {message} from "./Antd";
+import {translateMessage} from "../utils/translateMessage";
 
 const StudentHomePage=()=>{
 
@@ -15,6 +18,10 @@ const StudentHomePage=()=>{
     //const handleClick =(e)=>{
         //console.log('click ', e);
     //}
+    const afterCreate = async () => {
+            await mutate('/student/courses');
+            setShowModalNewCourse(false); // close the modal
+    };
     return(
         <>
             <div className={"title"}>
@@ -25,7 +32,6 @@ const StudentHomePage=()=>{
 
                     <Col span={12}>
                         <Title level={2} style={{color: '#ff4d4f'}}>Lista de Cursos</Title>
-
                     </Col>
 
                     <Col span={4}>
@@ -56,13 +62,9 @@ const StudentHomePage=()=>{
                     </Col>
                     <Col span={18}>
                         <div className={'student'}>
-                            <Row>
-                                <Col >
                                     <div className={'teacher'}>
-                                        <CoursesList />
+                                        <CourseListStudent />
                                     </div>
-                                </Col>
-                            </Row>
                         </div>
                     </Col>
                 </Row>
@@ -85,7 +87,7 @@ const StudentHomePage=()=>{
                     setShowModalNewCourse( false );
                 } }
                 update={false}
-                //onSubmit={afterCreate}
+                onSubmit={afterCreate}
             />
         </>
     );

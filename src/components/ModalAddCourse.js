@@ -26,17 +26,23 @@ const ModalAddCourse = ({
                 // use form data to be able to send a file to the server
                 const data = new FormData();
                 data.append('code', values.code);
+                console.log('datos',data);
 
                 try {
-                    await API.post('/courses', data); // post data to server
+                    await API.post(`/student/course/${values.code}`,data ); // post data to server
                     form.resetFields();
+                    mutate("/student/courses");
                     setIsSavingCourse(false);
                     onSubmit();
                 } catch (e) {
                     setIsSavingCourse(false);
-
-                    const errorList = e.error && <ErrorList errors={e.error}/>;
-                    message.error(<>{translateMessage(e.message)}{errorList}</>);
+                    console.log("e",e);
+                    if(e.status === 404){
+                        message.error("No existe un curso con ese código");
+                    }else {
+                        const errorList = e.error && <ErrorList errors={e.error}/>;
+                        message.error(<>{translateMessage(e.message)}{errorList}</>);
+                    }
                 }
             })
             .catch(info => {
@@ -50,7 +56,7 @@ const ModalAddCourse = ({
         form.validateFields()
             .then(async (values) => {
                 try {
-                    await API.put('/courses', values); // post data to server
+                    await API.put(`/student/course/${values.code}`,values); // post data to server
                     form.resetFields();
                     onSubmit();
                 } catch (error) {
@@ -67,10 +73,11 @@ const ModalAddCourse = ({
             });
 
     };
+
     return (
         <>
             <Modal
-                title='Ingrese nombre del Curso'
+                title='Ingrese código del Curso'
                 visible={show}
                 onOk={!update
                     ? onCreate
@@ -91,7 +98,7 @@ const ModalAddCourse = ({
                         name='code'
                         rules={[
                             {
-                                required: false,
+                                required: true,
                                 max: 4,
                                 message: 'Ingresa un código de 4 letras'
 

@@ -27,7 +27,7 @@ const ModalNewCourse = ({
                 const data = new FormData();
                 data.append('name', values.name);
                 data.append('code', values.code);
-
+                console.log('datos',data);
 
                 try {
                     await API.post('/courses', data); // post data to server
@@ -51,6 +51,7 @@ const ModalNewCourse = ({
 
         form.validateFields()
             .then(async (values) => {
+                console.log('son values',values);
                 try {
                     await API.put('/courses', values); // post data to server
                     form.resetFields();

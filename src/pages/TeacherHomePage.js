@@ -13,20 +13,8 @@ import {useParams} from "react-router-dom";
 import task from "../images/task.svg";
 
 
-//import {useCourse} from "../data/useCourse";
-//import {useTeacherCourse} from "../data/useTeacherCourse";
-
-
-export const fetchCourses = async() => {
-    // console.log( `Show data fetched. Articles: ${ JSON.stringify( articles ) }` );
-
-    return await API.get( '/courses' );
-};
-
 const TeacherHomePage = () => {
-   // let { id } = useParams();
-  //  const user = useCourse( id );
-   // const courses = useTeacherCourse( id );
+
     const {Title} = Typography;
     const auth=useAuth();
     const [showModalNewCourse, setShowModalNewCourse] = useState(false);
@@ -35,11 +23,11 @@ const TeacherHomePage = () => {
     const afterCreate = async () => {
         try {
             // show skeleton
-            await mutate('/courses', async courses => {
+            await mutate('/teacher/courses', async courses => {
                 return {data: [{}, ...courses.data]};
             }, false);
 
-            await mutate('/courses');
+            await mutate('/teacher/courses');
             setShowModalNewCourse(false); // close the modal
         } catch (error) {
             console.error(

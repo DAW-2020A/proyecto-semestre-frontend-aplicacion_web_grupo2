@@ -1,23 +1,19 @@
 import React, {useState} from 'react';
-import {Button, Col, Image, Menu, Popover, Row, Typography} from "antd";
-import {SettingOutlined, AlertTwoTone, AndroidOutlined, PlusCircleOutlined, PlusOutlined} from "@ant-design/icons";
+import {Button, Col, Image, Popover, Row, Typography} from "antd";
+import {SettingOutlined, AlertTwoTone, PlusOutlined} from "@ant-design/icons";
 import task from "../images/task.svg";
 import CourseListStudent from "../components/CourseListStudent";
 import {useAuth} from "../providers/Auth";
 import ModalAddCourse from "../components/ModalAddCourse";
 import {mutate} from "swr";
-import {message} from "./Antd";
-import {translateMessage} from "../utils/translateMessage";
+
 
 const StudentHomePage=()=>{
 
     const auth=useAuth();
     const [showModalNewCourse, setShowModalNewCourse] = useState(false)
-    //const { SubMenu } = Menu;
     const {Title}=Typography;
-    //const handleClick =(e)=>{
-        //console.log('click ', e);
-    //}
+
     const afterCreate = async () => {
             await mutate('/student/courses');
             setShowModalNewCourse(false); // close the modal

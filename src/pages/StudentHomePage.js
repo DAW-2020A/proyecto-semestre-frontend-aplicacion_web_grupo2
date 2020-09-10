@@ -1,14 +1,23 @@
-import React from 'react';
-import {Button, Col, Image, Menu, Popover, Row, Typography} from "antd";
-import {SettingOutlined,AlertTwoTone,AndroidOutlined,PlusCircleOutlined} from "@ant-design/icons";
+import React, {useState} from 'react';
+import {Button, Col, Image, Popover, Row, Typography} from "antd";
+import {SettingOutlined, AlertTwoTone, PlusOutlined} from "@ant-design/icons";
 import task from "../images/task.svg";
+import CourseListStudent from "../components/CourseListStudent";
+import {useAuth} from "../providers/Auth";
+import ModalAddCourse from "../components/ModalAddCourse";
+import {mutate} from "swr";
+
 
 const StudentHomePage=()=>{
-    const { SubMenu } = Menu;
+
+    const auth=useAuth();
+    const [showModalNewCourse, setShowModalNewCourse] = useState(false)
     const {Title}=Typography;
-    const handleClick =(e)=>{
-        console.log('click ', e);
-    }
+
+    const afterCreate = async () => {
+            await mutate('/student/courses');
+            setShowModalNewCourse(false); // close the modal
+    };
     return(
         <>
             <div className={"title"}>
@@ -17,13 +26,25 @@ const StudentHomePage=()=>{
                         <Button type="text" icon={<SettingOutlined />}>Configuración Perfil</Button>
                     </Col>
 
-                    <Col span={8}>
-                        <Title level={2} >Cursos Registrados</Title>
+                    <Col span={12}>
+                        <Title level={2} style={{color: '#ff4d4f'}}>Lista de Cursos</Title>
                     </Col>
 
-                    <Col span={6}>
-                        <Button type="primary" icon={<PlusCircleOutlined />}>Registrar un nuevo curso</Button>
+                    <Col span={4}>
+                        {
+                            auth.isAuthenticated &&
+                            <Button
+                                type="danger"
+                                icon={<PlusOutlined/>}
+                                onClick={() => {
+                                    setShowModalNewCourse(true);
+                                }}>
+                                Registrar un nuevo Curso
+                            </Button>
+                        }
+
                     </Col>
+
                 </Row>
             </div>
             <br/>
@@ -35,27 +56,11 @@ const StudentHomePage=()=>{
                             src={task}
                         />
                     </Col>
-                    <Col span={14}>
+                    <Col span={18}>
                         <div className={'student'}>
-                            <Menu
-                                onClick={handleClick}
-                                style={{ width: 400}}
-                                defaultSelectedKeys={['1']}
-                                defaultOpenKeys={['sub1']}
-                                mode="inline"
-                            >
-                                <SubMenu
-                                    key="sub1"
-                                    title={
-                                        <span>
-                            <AndroidOutlined />
-                            <span>Desarrollo de Aplicaciones Web</span>
-                            </span>
-                                    }
-                                >
-                                    <Menu.Item key="Curso1">Prueba 5: Laravel API |JWT</Menu.Item>
-                                </SubMenu>
-                            </Menu>
+                                    <div className={'teacher'}>
+                                        <CourseListStudent />
+                                    </div>
                         </div>
                     </Col>
                 </Row>
@@ -72,6 +77,14 @@ const StudentHomePage=()=>{
                     </Col>
                 </Row>
             </div>
+            <ModalAddCourse
+                show={showModalNewCourse}
+                close={ () => {
+                    setShowModalNewCourse( false );
+                } }
+                update={false}
+                onSubmit={afterCreate}
+            />
         </>
     );
 }

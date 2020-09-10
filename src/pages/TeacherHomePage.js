@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import {Button, Col, Row, Typography, List, Avatar, Alert, message} from "antd";
-import {PlusOutlined} from '@ant-design/icons';
+import {Button, Col, Row, Typography, List, Avatar, Alert, Image, message} from "antd";
+import {PlusOutlined, SettingOutlined} from '@ant-design/icons';
 import '../styles/teacherhome.css';
 import signatures from '../images/signatures.svg';
 import {translateMessage} from "../utils/translateMessage";
@@ -8,24 +8,13 @@ import {useAuth} from '../providers/Auth';
 import ModalNewCourse from "../components/ModalNewCourse";
 import {mutate} from "swr";
 import API from "../data";
-import CoursesList from "../components/CoursesList";
+import CoursesList from "../components/CoursesListTeacher";
 import {useParams} from "react-router-dom";
+import task from "../images/task.svg";
 
-
-//import {useCourse} from "../data/useCourse";
-//import {useTeacherCourse} from "../data/useTeacherCourse";
-
-
-export const fetchCourses = async() => {
-    // console.log( `Show data fetched. Articles: ${ JSON.stringify( articles ) }` );
-
-    return await API.get( '/courses' );
-};
 
 const TeacherHomePage = () => {
-   // let { id } = useParams();
-  //  const user = useCourse( id );
-   // const courses = useTeacherCourse( id );
+
     const {Title} = Typography;
     const auth=useAuth();
     const [showModalNewCourse, setShowModalNewCourse] = useState(false);
@@ -34,11 +23,11 @@ const TeacherHomePage = () => {
     const afterCreate = async () => {
         try {
             // show skeleton
-            await mutate('/courses', async courses => {
+            await mutate('/teacher/courses', async courses => {
                 return {data: [{}, ...courses.data]};
             }, false);
 
-            await mutate('/courses');
+            await mutate('/teacher/courses');
             setShowModalNewCourse(false); // close the modal
         } catch (error) {
             console.error(
@@ -51,12 +40,13 @@ const TeacherHomePage = () => {
     };
     return (
         <>
-
             <div className={"title"}>
                 <Row>
-                    <Col span={4}> </Col>
+                    <Col span={6}>
+                        <Button type="text" icon={<SettingOutlined />}>Configuración Perfil</Button>
+                    </Col>
                     <Col span={12}>
-                        <Title level={2} style={{color: '#ff4d4f'}}>Lista de Cursos/Materia</Title>
+                        <Title level={2} style={{color: '#ff4d4f'}}>Lista de Cursos</Title>
 
                     </Col>
 
@@ -77,14 +67,19 @@ const TeacherHomePage = () => {
 
                 </Row>
             </div>
+            <br/>
+            <br/>
             <Row>
-                <Col span={4}> </Col>
-                <Col span={12}>
+                <Col span={6}>
+                        <Image
+                            src={task}
+                        />
+                    </Col>
+                <Col  span={18}>
                     <div className={'teacher'}>
                         <CoursesList />
                     </div>
                 </Col>
-
             </Row>
             <Row align={'center'}>
                 <Alert message="Haz click en un curso para ver la información" type="info" showIcon/>

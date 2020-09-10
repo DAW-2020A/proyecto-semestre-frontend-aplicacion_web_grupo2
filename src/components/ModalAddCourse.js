@@ -5,7 +5,7 @@ import ErrorList from "./ErrorList";
 import {translateMessage} from "../utils/translateMessage";
 import {mutate} from 'swr';
 
-const ModalNewCourse = ({
+const ModalAddCourse = ({
                             show,
                             close,
                             update,
@@ -25,20 +25,24 @@ const ModalNewCourse = ({
 
                 // use form data to be able to send a file to the server
                 const data = new FormData();
-                data.append('name', values.name);
                 data.append('code', values.code);
                 console.log('datos',data);
 
                 try {
-                    await API.post('/courses', data); // post data to server
+                    await API.post(`/student/course/${values.code}`,data ); // post data to server
                     form.resetFields();
+                    mutate("/student/courses");
                     setIsSavingCourse(false);
                     onSubmit();
                 } catch (e) {
                     setIsSavingCourse(false);
-
-                    const errorList = e.error && <ErrorList errors={e.error}/>;
-                    message.error(<>{translateMessage(e.message)}{errorList}</>);
+                    console.log("e",e);
+                    if(e.status === 404){
+                        message.error("No existe un curso con ese código");
+                    }else {
+                        const errorList = e.error && <ErrorList errors={e.error}/>;
+                        message.error(<>{translateMessage(e.message)}{errorList}</>);
+                    }
                 }
             })
             .catch(info => {
@@ -51,9 +55,8 @@ const ModalNewCourse = ({
 
         form.validateFields()
             .then(async (values) => {
-                console.log('son values',values);
                 try {
-                    await API.put('/courses', values); // post data to server
+                    await API.put(`/student/course/${values.code}`,values); // post data to server
                     form.resetFields();
                     onSubmit();
                 } catch (error) {
@@ -70,10 +73,11 @@ const ModalNewCourse = ({
             });
 
     };
+
     return (
         <>
             <Modal
-                title='Ingrese nombre del Curso'
+                title='Ingrese código del Curso'
                 visible={show}
                 onOk={!update
                     ? onCreate
@@ -86,30 +90,15 @@ const ModalNewCourse = ({
                     form={form}
                     name='form_in_modal'
                     initialValues={{remember: true}}
-
-
                     //onFinish={onFinish}
                     //onFinishFailed={onFinishFailed}
                 >
-                    <Form.Item
-                        label='Ingrese nombre'
-                        name='name'
-                        rules={[
-                            {
-                                required: false,
-                                message: 'Ingresa un nombre válido',
-
-                            }
-                        ]}
-                    >
-                        <Input rows={4}/>
-                    </Form.Item>
                     <Form.Item
                         label='Ingrese codigo'
                         name='code'
                         rules={[
                             {
-                                required: false,
+                                required: true,
                                 max: 4,
                                 message: 'Ingresa un código de 4 letras'
 
@@ -123,4 +112,4 @@ const ModalNewCourse = ({
         </>
     );
 }
-export default ModalNewCourse;
+export default ModalAddCourse;

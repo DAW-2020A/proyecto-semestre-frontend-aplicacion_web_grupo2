@@ -13,7 +13,8 @@ const publicRoutes = {
   ANTD: '/antd',
   PROFILE: '/perfil',
   HOME_TEACHER: '/mi-cuenta',
-  HOME_STUDENT:'/cuenta'
+  HOME_STUDENT:'/cuenta',
+  FIRSTPAGESTUDENT: '/bienvenida-estudiante'
 };
 
 const privateRoutes = {

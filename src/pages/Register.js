@@ -1,8 +1,15 @@
-import React,{useState} from 'react';
+import React, {useState} from 'react';
 import Routes from '../constants/routes';
 import API from '../data/index';
 import {Button, Col, Form, Input, message, Modal, Row, Typography} from 'antd';
-import {LockOutlined, UserOutlined, MailOutlined, EditOutlined, FileTextOutlined,CloseOutlined} from '@ant-design/icons';
+import {
+    LockOutlined,
+    UserOutlined,
+    MailOutlined,
+    EditOutlined,
+    FileTextOutlined,
+    CloseOutlined
+} from '@ant-design/icons';
 import ErrorList from '../components/ErrorList';
 import {translateMessage} from '../utils/translateMessage';
 import withoutAuth from '../hocs/withoutAuth';
@@ -35,7 +42,7 @@ const Register = () => {
 
     const onFinish = async (userData) => {
         console.log('Received values of form: ', userData);
-        const {name, email,lastname, password, password_confirmation,role} = userData;
+        const {name, email, lastname, password, password_confirmation, role} = userData;
 
         try {
             const user = await API.post('/register', {
@@ -66,13 +73,13 @@ const Register = () => {
     const [show, setShow] = useState(true);
 
     const handleStudent = () => {
-        let roleuser='ROLE_STUDENT'
+        let roleuser = 'ROLE_STUDENT'
         setRole(roleuser);
         setShow(false);
         console.log(role);
     };
-    const handleTeacher = () =>{
-        let roleuser='ROLE_TEACHER'
+    const handleTeacher = () => {
+        let roleuser = 'ROLE_TEACHER'
         setShow(false);
         setRole(roleuser);
         console.log(role);
@@ -81,7 +88,7 @@ const Register = () => {
     return (
         <>
             <Modal
-                visible={ show }
+                visible={show}
                 title='Bienvenido A Trial Q'
                 closable={false}
                 footer={null}
@@ -91,8 +98,8 @@ const Register = () => {
                     <h2>Dinos quién Eres</h2>
                 </div>
                 <div>
-                    <button className='student' ><img  alt='Students' src={ students } onClick={handleStudent}/></button>
-                    <button className='teacher' ><img  alt='Teachers' src={ teachers } onClick={handleTeacher}/></button>
+                    <button className='student'><img alt='Students' src={students} onClick={handleStudent} /></button>
+                    <button className='teacher'><img alt='Teachers' src={teachers} onClick={handleTeacher}/></button>
                 </div>
                 <div style={{textAlign: 'center'}}>
                     <Row>
@@ -194,7 +201,7 @@ const Register = () => {
                             <Button type='primary' htmlType='submit' className='login-form-button'>
                                 Registrarme
                             </Button>
-                            <div><Link to={ Routes.LOGIN }>Ya tengo una cuenta</Link></div>
+                            <div><Link to={Routes.LOGIN}>Ya tengo una cuenta</Link></div>
                         </Form.Item>
                     </Form>
                 </Col>
@@ -204,3 +211,4 @@ const Register = () => {
 };
 
 export default withoutAuth(Register);
+

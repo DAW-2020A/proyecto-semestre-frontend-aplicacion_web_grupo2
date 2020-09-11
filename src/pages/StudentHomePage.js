@@ -11,7 +11,8 @@ import {mutate} from "swr";
 const StudentHomePage=()=>{
 
     const auth=useAuth();
-    const [showModalNewCourse, setShowModalNewCourse] = useState(false)
+    const [showModalNewCourse, setShowModalNewCourse] = useState(false);
+
     const {Title}=Typography;
 
     const afterCreate = async () => {

@@ -14,7 +14,9 @@ const publicRoutes = {
   PROFILE: '/perfil',
   HOME_TEACHER: '/mi-cuenta',
   HOME_STUDENT:'/cuenta',
-  FIRSTPAGESTUDENT: '/bienvenida-estudiante'
+  FIRSTPAGESTUDENT: '/bienvenida-estudiante',
+  TESTSSTUDENT:'/pruebas-estudiante',
+  TESTSTEACHER:'/pruebas-profesor',
 };
 
 const privateRoutes = {

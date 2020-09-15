@@ -62,14 +62,14 @@ const Register = () => {
 
     const handleStudent = () => {
         const role = 'ROLE_STUDENT'
-        setRole(role);
+        setRole(''+role);
         setShow(false);
         console.log(role);
     };
     const handleTeacher = () => {
         const role = 'ROLE_TEACHER'
         setShow(false);
-        setRole(role);
+        setRole(''+role);
         console.log(role);
     }
 

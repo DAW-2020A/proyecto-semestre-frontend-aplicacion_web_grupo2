@@ -24,25 +24,14 @@ import {EyeInvisibleOutlined, EyeTwoTone} from '@ant-design/icons/lib';
 const {Title} = Typography;
 
 const Register = () => {
-    // const auth = useAuth();
-    // const router = useRouter();
-
-    // React.useEffect( () => {
-    //   const checkAuthentication = () => {
-    //     console.log( 'auth.token', auth );
-    //     if( auth.token ) {
-    //       router.push( Routes.HOME );
-    //     }
-    //   };
-    //
-    //   checkAuthentication();
-    // }, [ auth ] );
 
     const {setAuthenticated, setCurrentUser} = useAuth();
+    const [role, setRole] = useState('');
+    const [show, setShow] = useState(true);
 
     const onFinish = async (userData) => {
         console.log('Received values of form: ', userData);
-        const {name, email, lastname, password, password_confirmation, role} = userData;
+        const {name, email, lastname, password, password_confirmation} = userData;
 
         try {
             const user = await API.post('/register', {
@@ -69,19 +58,18 @@ const Register = () => {
             message.error(<>{translateMessage(e.message)}{errorList}</>);
         }
     };
-    const [role, setRole] = useState(null);
-    const [show, setShow] = useState(true);
+
 
     const handleStudent = () => {
-        let roleuser = 'ROLE_STUDENT'
-        setRole(roleuser);
+        const role = 'ROLE_STUDENT'
+        setRole(role);
         setShow(false);
         console.log(role);
     };
     const handleTeacher = () => {
-        let roleuser = 'ROLE_TEACHER'
+        const role = 'ROLE_TEACHER'
         setShow(false);
-        setRole(roleuser);
+        setRole(role);
         console.log(role);
     }
 

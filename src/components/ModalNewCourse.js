@@ -26,7 +26,6 @@ const ModalNewCourse = ({
                 // use form data to be able to send a file to the server
                 const data = new FormData();
                 data.append('name', values.name);
-                data.append('code', values.code);
                 console.log('datos',data);
 
                 try {
@@ -98,20 +97,6 @@ const ModalNewCourse = ({
                             {
                                 required: false,
                                 message: 'Ingresa un nombre válido',
-
-                            }
-                        ]}
-                    >
-                        <Input rows={4}/>
-                    </Form.Item>
-                    <Form.Item
-                        label='Ingrese codigo'
-                        name='code'
-                        rules={[
-                            {
-                                required: false,
-                                max: 4,
-                                message: 'Ingresa un código de 4 letras'
 
                             }
                         ]}

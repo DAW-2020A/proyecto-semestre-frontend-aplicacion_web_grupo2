@@ -6,14 +6,20 @@ import {useCourseListStudent} from '../data/useCourseListStudent';
 import ShowError from './ShowError';
 import signatures from "../images/signatures.svg";
 import {useAuth} from "../providers/Auth";
+import InfobyCourse from "./InfobyCourse";
+
 
 const {Text} = Typography;
-const {SubMenu} = Menu;
 
 const CourseListStudent = (props) => {
 
-    const info=useAuth().currentUser
+    const {currentUser}=useAuth();
     const {coursesStudent, isLoading, isError, mutate} = useCourseListStudent();
+
+    //Mostrar en consola el id del curso seleccionado
+    const info=(index)=>{
+        console.log(index);
+    }
 
     const handleClick = e => {
         console.log('click ', e);
@@ -47,22 +53,28 @@ const CourseListStudent = (props) => {
             <Row justify='center' gutter={30}>
                 {
                     coursesStudent.map( ( course, i ) => (
-                        info  ?
+                        //info  ?
                             <Col xs={ 24 } sm={ 12 } md={ 8 } style={ { marginBottom: 30 } } key={ i }>
                                 {
                                     course.name
-                                        ? <Card
+                                        ?
+                                        <Link to={Routes.TESTSSTUDENT.replace( ':id', course.id )}>
+                                            <Card
                                             title={ course.name }
+                                            //onClick={<InfobyCourse courseId={course.id}/>}
                                         >
+
                                             <Text type='secondary'>{ course.created_at }</Text>
                                             <br/>
                                         </Card>
+                                        </Link>
                                         : <div style={ { textAlign: 'center' } }>
                                             <Skeleton.Image style={ { width: 200 } } />
                                             <Card title='' extra='' cover='' loading />
                                         </div>
                                 }
-                            </Col>: ''
+                            </Col>
+                        //: ''
 
                     ) )
                 }

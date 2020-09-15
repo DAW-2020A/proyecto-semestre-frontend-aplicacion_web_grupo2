@@ -3,15 +3,18 @@ import {Skeleton, Card, Table, Col, Row, Radio, Typography, Menu, Title} from 'a
 import {useInfoCourse} from '../data/useInfoCourse';
 import ShowError from './ShowError';
 import {useAuth} from "../providers/Auth";
+import {Link} from "react-router-dom";
+import Routes from "../constants/routes";
+
 
 const {Text} = Typography;
 
 
-const InfobyCourse = (props) => {
+const InfobyCourse = ({courseId}) => {
 
-    const {currentUser}=useAuth();
-    const {testsCourse, isLoading, isError} = useInfoCourse(props.id);
-
+    console.log(courseId);
+    const {testsCourse,isLoading,isError} = useInfoCourse(courseId);
+    console.log(testsCourse)
     if (isLoading) {
         return <Row >
             {
@@ -34,35 +37,56 @@ const InfobyCourse = (props) => {
     return (
     <>
         {
-            testsCourse(
-                //info ?
-                    <Col Col xs={ 24 } sm={ 12 } md={ 8 } style={ { marginBottom: 30 } }>
-                        <Row>
-                            <Col>
-                                <h1>testsCourse.name</h1>
+            testsCourse
+                 ?
+                    <>
+                    <div>
+                        <h1 align={'center'}>{testsCourse.name}</h1>
+                    </div>
+                        <div>
+                            <Col span={6} align={'center'}>
+                                <br/>
+                                <br/>
+                                <Row>
+                                    <span>Docente de la materia</span>
+                                </Row>
+                                <Row>
+                                    <span>{testsCourse.user_id}</span>
+                                </Row>
+                                <Row>
+                                    <span>Codigo del curso</span>
+                                </Row>
+                                <Row>
+                                    <span>{testsCourse.code}</span>
+                                </Row>
                             </Col>
-                        </Row>
-                        <br/>
-                        <br/>
-                        <Row>
-                            <Col span={6}>Docente de la materia</Col>
-                        </Row>
-                        <Row>
-                            <Col span={6}>testsCourse.user_id</Col>
-                        </Row>
-                        <Row>
-                            <Col span={6}>Codigo del curso</Col>
-                        </Row>
-                        <Row>
-                            <Col span={6}>testsCourse.code</Col>
-                        </Row>
-                    </Col>
+                        </div>
+                        <Col>
+                            {
+                                testsCourse.tests_students.map((test,i)=>(
+                                    <Col xs={ 24 } sm={ 12 } md={ 8 } style={ { marginBottom: 30 } } key={ i }>
+                                        {
+                                            test.name
+                                                ?
+                                                    <Card
+                                                        title={ test.name }
+                                                    >
 
-                //:''
-            )
-
+                                                        <Text type='secondary'>{ test.description }</Text>
+                                                        <br/>
+                                                    </Card>
+                                                : <div style={ { textAlign: 'center' } }>
+                                                    <Skeleton.Image style={ { width: 200 } } />
+                                                    <Card title='' extra='' cover='' loading />
+                                                </div>
+                                        }
+                                    </Col>
+                                ))
+                            }
+                        </Col>
+                     </>
+                :''
         }
-
     </>
     );
 };

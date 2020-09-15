@@ -15,7 +15,7 @@ const publicRoutes = {
   HOME_TEACHER: '/mi-cuenta',
   HOME_STUDENT:'/cuenta',
   FIRSTPAGESTUDENT: '/bienvenida-estudiante',
-  TESTSSTUDENT:'/pruebas-estudiante',
+  TESTSSTUDENT:'/cursos/:id',
   TESTSTEACHER:'/pruebas-profesor',
 };
 

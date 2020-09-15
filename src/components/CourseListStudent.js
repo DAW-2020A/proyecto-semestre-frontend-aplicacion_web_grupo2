@@ -8,6 +8,7 @@ import signatures from "../images/signatures.svg";
 import {useAuth} from "../providers/Auth";
 import InfobyCourse from "./InfobyCourse";
 
+
 const {Text} = Typography;
 
 const CourseListStudent = (props) => {
@@ -16,8 +17,8 @@ const CourseListStudent = (props) => {
     const {coursesStudent, isLoading, isError, mutate} = useCourseListStudent();
 
     //Mostrar en consola el id del curso seleccionado
-    const info=(data)=>{
-        console.log(data);
+    const info=(index)=>{
+        console.log(index);
     }
 
     const handleClick = e => {
@@ -57,14 +58,16 @@ const CourseListStudent = (props) => {
                                 {
                                     course.name
                                         ?
-                                        //<Link to={Routes.TESTSSTUDENT}>
+                                        <Link to={Routes.TESTSSTUDENT.replace( ':id', course.id )}>
                                             <Card
-                                            title={ course.name } onClick={()=>info(course.id)}
+                                            title={ course.name }
+                                            //onClick={<InfobyCourse courseId={course.id}/>}
                                         >
+
                                             <Text type='secondary'>{ course.created_at }</Text>
                                             <br/>
                                         </Card>
-                                        //</Link>
+                                        </Link>
                                         : <div style={ { textAlign: 'center' } }>
                                             <Skeleton.Image style={ { width: 200 } } />
                                             <Card title='' extra='' cover='' loading />

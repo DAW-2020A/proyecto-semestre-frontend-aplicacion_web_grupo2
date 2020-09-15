@@ -1,34 +1,35 @@
 import React, {useState} from 'react';
-import {Button, Col, Image, Popover, Row, Typography} from "antd";
-import {SettingOutlined, ArrowLeftOutlined, PlusOutlined} from "@ant-design/icons";
-import task from "../images/task.svg";
-import CourseListStudent from "../components/CourseListStudent";
-import {useAuth} from "../providers/Auth";
-import ModalAddCourse from "../components/ModalAddCourse";
+import {Button, Col, Row} from "antd";
+import { ArrowLeftOutlined} from "@ant-design/icons";
 import {mutate} from "swr";
 import InfobyCourse from "../components/InfobyCourse";
+import {useParams} from 'react-router-dom';
+import {useInfoCourse} from "../data/useInfoCourse";
+
 
 
 const  InfoCourseStudent=()=>{
 
-    const auth=useAuth();
-
-
-    const {Title}=Typography;
+    //const auth=useAuth();
+    let {id}=(useParams());
+    console.log(id);
+    const courseId = useInfoCourse(id);
 
     return(
         <>
-            <div className={"title"}>
+            <div>
                 <Row>
                     <Col span={6}>
                         <Button type="text" icon={<ArrowLeftOutlined />}>Regresar</Button>
                     </Col>
                 </Row>
-                <Row>
-                    <InfobyCourse/>
-                </Row>
+                <br/>
+                <div>
+                    <InfobyCourse courseId={id}/>
+                </div>
             </div>
         </>
 
     )
 }
+export default InfoCourseStudent

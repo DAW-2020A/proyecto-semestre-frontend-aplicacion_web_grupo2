@@ -52,12 +52,15 @@ const CourseList = (props) => {
                         <Col xs={ 24 } sm={ 12 } md={ 8 } style={ { marginBottom: 30 } } key={ i }>
                             {
                                 course.name
-                                ? <Card
+                                ?
+                                    <Link to={Routes.TESTSTEACHER.replace( ':id', course.id )}>
+                                    <Card
                                     title={ course.name }
                                    >
                                     <Text type='secondary'>{ course.created_at }</Text>
                                     <br/>
                                 </Card>
+                                </Link>
                                 : <div style={ { textAlign: 'center' } }>
                                     <Skeleton.Image style={ { width: 200 } } />
                                     <Card title='' extra='' cover='' loading />

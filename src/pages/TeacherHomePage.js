@@ -9,8 +9,9 @@ import ModalNewCourse from "../components/ModalNewCourse";
 import {mutate} from "swr";
 import API from "../data";
 import CoursesList from "../components/CoursesListTeacher";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import task from "../images/task.svg";
+import Routes from "../constants/routes";
 
 
 const TeacherHomePage = () => {
@@ -43,7 +44,7 @@ const TeacherHomePage = () => {
             <div className={"title"}>
                 <Row>
                     <Col span={6}>
-                        <Button type="text" icon={<SettingOutlined />}>Configuración Perfil</Button>
+                        <Link to={Routes.PROFILE}><Button type="text" icon={<SettingOutlined />}>Configuración Perfil</Button></Link>
                     </Col>
                     <Col span={12}>
                         <Title level={2} style={{color: '#ff4d4f'}}>Lista de Cursos</Title>

@@ -3,6 +3,7 @@ import { useAuth } from '../providers/Auth';
 import withAuth from '../hocs/withAuth';
 import API from '../data';
 import Cookies from 'js-cookie';
+import Loading from '../components/Loading';
 
 const Logout = () => {
   const { setAuthenticated, setCurrentUser } = useAuth();
@@ -23,7 +24,7 @@ const Logout = () => {
 
     doLogout();
   }, [ setAuthenticated ] );
-  return <p>Logging out...</p>;
+  return <Loading/>;
 };
 
 export default withAuth( Logout, '/' );

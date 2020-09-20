@@ -96,7 +96,8 @@ const Register = () => {
                     </Row>
                 </div>
                 <div style={{textAlign: 'center'}}>
-                    <Button type="primary" style={{margin: 8}}><Link to={Routes.HOME}>Cancelar</Link></Button>
+                    <Link to={Routes.HOME}><Button type="primary" style={{margin: 8}}>Cancelar</Button></Link>
+                    <Link to={Routes.LOGIN}> Ya tengo una Cuenta... Iniciar Sesión</Link>
                 </div>
             </Modal>
             <Title style={{textAlign: 'center'}}>Registro</Title>

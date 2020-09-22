@@ -1,20 +1,42 @@
 import React, {useState} from 'react';
-import {Button, Col, Row} from "antd";
+import {Button, Col, message, Row} from "antd";
 import Routes from '../constants/routes';
-import { ArrowLeftOutlined} from "@ant-design/icons";
+import {ArrowLeftOutlined, PlusOutlined} from "@ant-design/icons";
 import {mutate} from "swr";
 import InfobyCourse from "../components/InfobyCourse";
 import {Link,useParams} from 'react-router-dom';
-import {useCourseInfo} from "../data/useCourseInfo";
+import {translateMessage} from "../utils/translateMessage";
+import ModalComplete from "../components/ModalComplete";
+import ViewComplete from "../components/ViewComplete";
 
 
 
 const  InfoCourseTeacher=()=>{
 
+    const [showComplete, setShowComplete] = useState(false);
     //const auth=useAuth();
     let {id}=(useParams());
-    console.log(id);
-    const courseId = useCourseInfo(id);
+
+    //const courseId = useCourseInfo(id);
+
+    const afterCreate = async () => {
+        try {
+            // show skeleton
+            await mutate('/activities', async activities => {
+                return {data: [{}, ...activities.data]};
+            }, false);
+
+            await mutate('/activities');
+            setShowComplete(false); // close the modal
+        } catch (error) {
+            console.error(
+                'You have an error in your code or there are Network issues.',
+                error
+            );
+
+            message.error(translateMessage(error.message));
+        }
+    };
 
     return(
         <>
@@ -23,10 +45,31 @@ const  InfoCourseTeacher=()=>{
                     <Col span={6}>
                         <Link to={Routes.HOME_TEACHER}><Button type="text" icon={<ArrowLeftOutlined />}>Regresar</Button></Link>
                     </Col>
+                    <Col span={6}>
+                        <Button
+                            type="danger"
+                            icon={<PlusOutlined/>}
+                            onClick={() => {
+                                setShowComplete(true);
+                            }}>
+                            Modal para complete
+                        </Button>
+                    </Col>
                 </Row>
                 <br/>
                 <div>
                     <InfobyCourse courseId={id}/>
+                    <ModalComplete
+                        show={showComplete}
+                        close={ () => {
+                            setShowComplete( false );
+                        } }
+                        update={false}
+                        onSubmit={afterCreate}
+                    />
+                    <div >
+                    <ViewComplete/>
+                    </div>
                 </div>
             </div>
         </>

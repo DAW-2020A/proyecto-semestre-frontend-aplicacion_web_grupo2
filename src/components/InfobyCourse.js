@@ -40,7 +40,6 @@ const InfobyCourse = ({courseId}) => {
             {
                 testsCourse && info
                     ?
-
                     <>
                         <Row>
                             <Col span={8}>
@@ -53,9 +52,10 @@ const InfobyCourse = ({courseId}) => {
                                         <br/>
                                         <div className="site-card-border-less-wrapper">
                                             <Card title="Info. Materia" bordered={false} style={{width: 300}}>
-                                                <span>Docente de la materia</span>
-                                                <span>{info.name + ' ' + info.name}</span>
-                                                <span>Codigo del curso</span>
+                                                <span>Docente de la materia: </span>
+                                                <span>{info.name}</span>
+                                                <br/>
+                                                <span>Codigo del curso: </span>
                                                 <span>{testsCourse.code}</span>
                                             </Card>
                                         </div>
@@ -69,14 +69,24 @@ const InfobyCourse = ({courseId}) => {
                                             <Col>
                                                 <Col>
                                                     <h4>Lista de estudiantes</h4>
+                                                    <table>
+                                                        <thead>
+                                                        <th>Nombre</th>
+                                                        <th>Correo</th>
+                                                        <th>Calificación</th>
+                                                        </thead>
+                                                        <tbody>
                                                     {
                                                         testsCourse.students.data.map((student, i) => (
-                                                            <List key={i}>
-                                                                <List.Item>{student.name} {student.lastname}</List.Item>
-                                                                <List.Item>{student.email}</List.Item>
-                                                            </List>
+                                                                <tr key={i}>
+                                                                    <td>{student.name} {student.lastname} </td>
+                                                                    <td>{student.email}</td>
+                                                                </tr>
                                                         ))
                                                     }
+                                                                </tbody>
+                                                            </table>
+
                                                 </Col>
                                                 <Col>
                                                     {

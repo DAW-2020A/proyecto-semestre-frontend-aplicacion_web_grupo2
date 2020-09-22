@@ -8,12 +8,15 @@ import {Link,useParams} from 'react-router-dom';
 import {translateMessage} from "../utils/translateMessage";
 import ModalComplete from "../components/ModalComplete";
 import ViewComplete from "../components/ViewComplete";
+import ModalMultipleChoice from "../components/ModalMultipleChoice";
+import ViewMChoice from "../components/ViewMChoice";
 
 
 
 const  InfoCourseTeacher=()=>{
 
     const [showComplete, setShowComplete] = useState(false);
+    const [showMultipleChoice, setShowMultipleChoice] = useState(false);
     //const auth=useAuth();
     let {id}=(useParams());
 
@@ -23,7 +26,7 @@ const  InfoCourseTeacher=()=>{
         try {
             // show skeleton
             await mutate('/activities', async activities => {
-                return {data: [{}, ...activities.data]};
+                //return {data: [{}, ...activities.data]};
             }, false);
 
             await mutate('/activities');
@@ -55,7 +58,18 @@ const  InfoCourseTeacher=()=>{
                             Modal para complete
                         </Button>
                     </Col>
+                    <Col span={6}>
+                        <Button
+                            type="danger"
+                            icon={<PlusOutlined/>}
+                            onClick={() => {
+                                setShowMultipleChoice(true);
+                            }}>
+                            Modal Selección Multiple
+                        </Button>
+                    </Col>
                 </Row>
+
                 <br/>
                 <div>
                     <InfobyCourse courseId={id}/>
@@ -68,8 +82,18 @@ const  InfoCourseTeacher=()=>{
                         onSubmit={afterCreate}
                     />
                     <div >
-                    <ViewComplete/>
+
+
                     </div>
+                    <ModalMultipleChoice
+                        show={showMultipleChoice}
+                        close={ () => {
+                            setShowMultipleChoice( false );
+                        } }
+                        update={false}
+                        onSubmit={afterCreate}
+                    />
+                    <ViewMChoice />
                 </div>
             </div>
         </>

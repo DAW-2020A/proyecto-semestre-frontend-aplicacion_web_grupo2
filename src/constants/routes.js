@@ -17,6 +17,7 @@ const publicRoutes = {
   FIRSTPAGESTUDENT: '/bienvenida-estudiante',
   TESTSSTUDENT:'/cursos/:id',
   TESTSTEACHER:'/cursos/:id',
+  FIRSTTEACHERPAGE: '/bienvenida-profesor',
 };
 
 const privateRoutes = {

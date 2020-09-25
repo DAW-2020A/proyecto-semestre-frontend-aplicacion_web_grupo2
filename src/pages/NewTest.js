@@ -47,7 +47,7 @@ const NewTest=()=>{
         <>
             <Row>
                 <Col span={6}>
-                    <Button type="text" icon={<ArrowLeftOutlined />}>Regresar</Button>
+                    <Link to={Routes.HOME_TEACHER}><Button type="text" icon={<ArrowLeftOutlined />}>Regresar</Button></Link>
                 </Col>
                 <Col span={12} align={'center'} >
                     <Title style={{color: '#ff4d4f'}}>Creación de evaluaciones</Title>

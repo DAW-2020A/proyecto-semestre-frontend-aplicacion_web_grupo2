@@ -48,9 +48,6 @@ const  InfoCourseTeacher=()=>{
                     <Col span={6}>
                         <Link to={Routes.HOME_TEACHER}><Button type="text" icon={<ArrowLeftOutlined />}>Regresar</Button></Link>
                     </Col>
-                    <Col span={12} align={'right'}>
-                        <Link to={Routes.CREATETEST}><Button type={'primary'}>Crear nueva prueba</Button></Link>
-                    </Col>
                 </Row>
 
                 <br/>

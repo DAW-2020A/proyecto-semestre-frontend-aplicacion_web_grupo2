@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import API from '../data';
 import {useAuth} from "../providers/Auth";
-import {Descriptions, Button} from "antd";
+import {Descriptions, Button, Card, Avatar, Skeleton} from "antd";
 import {ArrowLeftOutlined} from '@ant-design/icons';
 import {Link} from "react-router-dom";
 import Routes from '../constants/routes';
+
+const { Meta } = Card;
 
 const ProfilePage = () => {
 
@@ -27,18 +29,33 @@ const ProfilePage = () => {
                         }
                         <br/>
                         <br/>
-                        <h1>Perfil de Usuario</h1>
-                        <Descriptions>
-                            <Descriptions.Item label="Nombre">{info.name}</Descriptions.Item>
-                            <Descriptions.Item label="Apellido">{info.lastname}</Descriptions.Item>
-                            <Descriptions.Item label="Correo">{info.email}</Descriptions.Item>
-                            <Descriptions.Item label="Rol">{info.role}</Descriptions.Item>
-                        </Descriptions>
+
+                        <Card
+                            title="Perfil"
+                            extra={<Button type="primary">Edit</Button>}
+                        >
+                            <Card.Grid >{info.name}</Card.Grid>
+                            <Card.Grid >{info.lastname}</Card.Grid>
+                            <Card.Grid >{info.email}</Card.Grid>
+                            {
+                                info.role=='ROLE_TEACHER' ?
+                                    <Card.Grid >Profesor</Card.Grid>
+                                    : info.role=='ROLE_STUDENT' ?
+                                    <Card.Grid >Estudiante</Card.Grid>
+                                    : <Card.Grid >Administrador</Card.Grid>
+                            }
+                        </Card>
                     </div>
                     :
-                    <h1 className='title' style={{aling:"center"}}>
-                        La Sesion Ha Caducado... Inicie Nuevamente la Sesión
-                    </h1>
+                    <Skeleton avatar active >
+                        <Meta
+                            avatar={
+                                <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                            }
+                            title="Card title"
+                            description="This is the description"
+                        />
+                    </Skeleton>
             }
         </>
     );

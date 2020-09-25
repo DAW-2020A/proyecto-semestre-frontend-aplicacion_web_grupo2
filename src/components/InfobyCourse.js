@@ -1,19 +1,20 @@
 import React, {useEffect, useState} from 'react';
-import {Skeleton, Card, Table, Col, Row, Radio, Typography, Menu, List} from 'antd';
+import {Skeleton, Card, Table, Col, Row, Radio, Typography, Menu, List, Avatar, Spin, Button} from 'antd';
 import {useInfoCourse} from '../data/useInfoCourse';
 import ShowError from './ShowError';
 import {useAuth} from "../providers/Auth";
 import {Link} from "react-router-dom";
 import Routes from "../constants/routes";
+import {PlusOutlined} from "@ant-design/icons";
 
 
-const {Text} = Typography;
+const {Text, Title} = Typography;
 
 
 const InfobyCourse = ({courseId}) => {
 
     const info = useAuth().currentUser
-    console.log(courseId);
+    console.log("curso_id", courseId);
     const {testsCourse, isLoading, isError} = useInfoCourse(courseId);
     console.log("arreglo", testsCourse)
     if (isLoading) {
@@ -41,84 +42,88 @@ const InfobyCourse = ({courseId}) => {
                 testsCourse && info
                     ?
                     <>
-                        <Row>
-                            <Col span={8}>
+                        <Row justify='center'>
+                            <Col>
                                 <div>
-                                    <h1 align={'center'}>{testsCourse.name}</h1>
-                                </div>
-                                <div>
-                                    <Col span={6} align={'center'}>
-                                        <br/>
-                                        <br/>
-                                        <div className="site-card-border-less-wrapper">
-                                            <Card title="Info. Materia" bordered={false} style={{width: 300}}>
-                                                <span>Docente de la materia: </span>
-                                                <span>{info.name}</span>
-                                                <br/>
-                                                <span>Codigo del curso: </span>
-                                                <span>{testsCourse.code}</span>
-                                            </Card>
-                                        </div>
-                                    </Col>
+                                    <Title align={'center'} level={2}>{testsCourse.name}</Title>
                                 </div>
                             </Col>
-                            <Col span={16}>
+                        </Row>
+
+                        <div>
+                            <Row type='flex' justify={'center'}>
+                                <Col align={'center'} style={{margin: 10}}>
+                                    <div className="site-card-border-less-wrapper">
+                                        <Card title="Código:" bordered={false} style={{width: 300}}>
+                                            <span>{testsCourse.code}</span>
+                                        </Card>
+                                    </div>
+                                </Col>
+                            </Row>
+
+                            <Row type={'flex'} justify={'space-evenly'}>
                                 {
                                     info.role === "ROLE_TEACHER" ?
                                         <>
-                                            <Col>
-                                                <Col>
-                                                    <h4>Lista de estudiantes</h4>
-                                                    <table>
-                                                        <thead>
-                                                        <th>Nombre</th>
-                                                        <th>Correo</th>
-                                                        <th>Calificación</th>
-                                                        </thead>
-                                                        <tbody>
-                                                    {
-                                                        testsCourse.students.data.map((student, i) => (
-                                                                <tr key={i}>
-                                                                    <td>{student.name} {student.lastname} </td>
-                                                                    <td>{student.email}</td>
-                                                                </tr>
-                                                        ))
-                                                    }
-                                                                </tbody>
-                                                            </table>
+                                            <Col style={{marginLeft: 20, marginRight: 20, width:400}}>
+                                                <Title level={3}>Lista de estudiantes</Title>
 
-                                                </Col>
-                                                <Col>
-                                                    {
-                                                        testsCourse.tests.data.map((test, i) => (
-                                                            <Col xs={24} sm={12} md={8} style={{marginBottom: 30}}
-                                                                 key={i}>
-                                                                {
-                                                                    test.name
-                                                                        ?
-                                                                        <Card
-                                                                            title={test.name}
-                                                                        >
-
-                                                                            <Text
-                                                                                type='secondary'>{test.description}</Text>
-                                                                            <br/>
-                                                                        </Card>
-                                                                        : <div style={{textAlign: 'center'}}>
-                                                                            <Skeleton.Image style={{width: 200}}/>
-                                                                            <Card title='' extra='' cover='' loading/>
-                                                                        </div>
+                                                <List
+                                                    dataSource={testsCourse.students.data}
+                                                    renderItem={item => (
+                                                        <List.Item key={item.id}>
+                                                            <List.Item.Meta
+                                                                avatar={
+                                                                    <Avatar
+                                                                        src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>
                                                                 }
-                                                            </Col>
-                                                        ))
-                                                    }
-                                                </Col>
+                                                                title={<a
+                                                                    href="https://ant.design">{item.name} {item.lastname}</a>}
+                                                                description={item.email}
+                                                            />
+                                                            <div style={{marginLeft: 5}}>Calificación</div>
+                                                        </List.Item>
+                                                    )}
+                                                >
+                                                </List>
                                             </Col>
+                                            {
+                                                testsCourse.tests.data.map((test, i) => (
+                                                    <Col style={{marginLeft: 200}}
+                                                         key={i} align={'center'}>
+                                                        <Title level={3}>Evaluaciones</Title>
+                                                        {
+                                                            test.name
+                                                                ?
+                                                                <Card
+                                                                    title={test.name}
+                                                                    style={{width: 300}}
+                                                                >
+
+                                                                    <Text
+                                                                        type='secondary'>{test.description}</Text>
+                                                                    <br/>
+                                                                </Card>
+                                                                : <div style={{textAlign: 'center'}}>
+                                                                    <Skeleton.Image style={{width: 200}}/>
+                                                                    <Card title='' extra='' cover='' loading/>
+                                                                </div>
+                                                        }
+                                                        <Button
+                                                            type="primary"
+                                                            icon={<PlusOutlined/>}
+                                                            >
+                                                            Crear una evaluación
+                                                        </Button>
+                                                    </Col>
+                                                ))
+                                            }
                                         </>
                                         : ''
                                 }
-                            </Col>
-                        </Row>
+                            </Row>
+                        </div>
+
                     </>
                     : ''
             }

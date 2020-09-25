@@ -34,6 +34,7 @@ const AsyncHomeStudent = loadable(() => import( '../pages/StudentHomePage' ), lo
 const AsyncFirstStudent = loadable(() => import( '../pages/FirstPageStudent' ), loadableOptions);
 const AsyncTestsStudent = loadable(() => import( '../pages/InfoCourseStudent' ), loadableOptions);
 const AsyncTestsTeacher = loadable(() => import( '../pages/InfoCourseTeacher' ), loadableOptions);
+const AsyncNewTest = loadable(() => import( '../pages/NewTest' ), loadableOptions);
 /**
  * Este es el componente que se encarga de renderizar el componente adecuado
  * de acuerdo a la ruta en la que se encuentra el navegador.
@@ -58,6 +59,7 @@ const AppRouter = () => (
         <PublicRoute path={Routes.FIRSTPAGESTUDENT} component={AsyncFirstStudent}/>
         <PublicRoute path={Routes.TESTSSTUDENT} component={AsyncTestsStudent}/>
         <PublicRoute path={Routes.TESTSTEACHER} component={AsyncTestsTeacher}/>
+        <PublicRoute path={Routes.CREATETEST} component={AsyncNewTest}/>
 
         <PrivateRoute path={Routes.PRIVATE} component={AsyncPrivate}/>
         <PrivateRoute path={Routes.ARTICLE_ID} component={AsyncArticle}/>

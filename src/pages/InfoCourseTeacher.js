@@ -48,26 +48,6 @@ const  InfoCourseTeacher=()=>{
                     <Col span={6}>
                         <Link to={Routes.HOME_TEACHER}><Button type="text" icon={<ArrowLeftOutlined />}>Regresar</Button></Link>
                     </Col>
-                    <Col span={6}>
-                        <Button
-                            type="danger"
-                            icon={<PlusOutlined/>}
-                            onClick={() => {
-                                setShowComplete(true);
-                            }}>
-                            Modal para complete
-                        </Button>
-                    </Col>
-                    <Col span={6}>
-                        <Button
-                            type="danger"
-                            icon={<PlusOutlined/>}
-                            onClick={() => {
-                                setShowMultipleChoice(true);
-                            }}>
-                            Modal Selección Multiple
-                        </Button>
-                    </Col>
                 </Row>
 
                 <br/>

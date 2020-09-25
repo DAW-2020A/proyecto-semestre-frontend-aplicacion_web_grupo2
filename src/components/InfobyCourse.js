@@ -109,12 +109,12 @@ const InfobyCourse = ({courseId}) => {
                                                                     <Card title='' extra='' cover='' loading/>
                                                                 </div>
                                                         }
-                                                        <Button
+                                                        <Link to={Routes.CREATETEST}><Button
                                                             type="primary"
                                                             icon={<PlusOutlined/>}
                                                             >
                                                             Crear una evaluación
-                                                        </Button>
+                                                        </Button></Link>
                                                     </Col>
                                                 ))
                                             }

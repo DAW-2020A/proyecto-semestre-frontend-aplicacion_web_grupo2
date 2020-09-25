@@ -1,23 +1,24 @@
 import React, {useEffect, useState} from 'react';
-import {Skeleton, Card, Table, Col, Row, Radio, Typography, Button, List, Avatar, Menu} from 'antd';
+import {Skeleton, Card, Modal, Col, Row, Radio, Typography, Button, List, Avatar, Menu} from 'antd';
 import Routes from '../constants/routes';
 import {Link} from 'react-router-dom';
 import {useCourseListStudent} from '../data/useCourseListStudent';
 import ShowError from './ShowError';
-import signatures from "../images/signatures.svg";
 import {useAuth} from "../providers/Auth";
-import InfobyCourse from "./InfobyCourse";
+import ModalAddCourse from "./ModalAddCourse";
 
 
 const {Text} = Typography;
 
 const CourseListStudent = (props) => {
 
-    const {currentUser}=useAuth();
+    const {currentUser} = useAuth();
     const {coursesStudent, isLoading, isError, mutate} = useCourseListStudent();
+    const [showModalAddCourse, setShowModalAddCourse] = useState(true);
+
 
     //Mostrar en consola el id del curso seleccionado
-    const info=(index)=>{
+    const info = (index) => {
         console.log(index);
     }
 
@@ -25,16 +26,14 @@ const CourseListStudent = (props) => {
         console.log('click ', e);
     };
 
-
-
     if (isLoading) {
-        return <Row >
+        return <Row>
             {
                 [...new Array(9)].map((_, i) =>
                     <Col xs={24} sm={12} md={8} style={{marginBottom: 30}} key={i}>
                         <div style={{textAlign: 'center'}}>
                             <Skeleton.Image style={{width: 200}}/>
-                            <Card title='' extra='' cover='' loading />
+                            <Card title='' extra='' cover='' loading/>
                         </div>
                     </Col>
                 )
@@ -47,40 +46,52 @@ const CourseListStudent = (props) => {
     }
     console.log(coursesStudent)
 
+    const afterCreate = async () => {
+        await mutate('/student/courses');
+        setShowModalAddCourse(false); // close the modal
+    };
+
     return (
         <>
+            <>
+                <ModalAddCourse
+                show={coursesStudent.length === 0}
+                close={() => {
+                    setShowModalAddCourse(false);
+                }}
+                update={false}
+                onSubmit={afterCreate}/>
+            </>
             <h1>Tarjetas</h1>
             <Row justify='center' gutter={30}>
                 {
-                    coursesStudent.map( ( course, i ) => (
+                    coursesStudent.map((course, i) => (
                         //info  ?
-                            <Col xs={ 24 } sm={ 12 } md={ 8 } style={ { marginBottom: 30 } } key={ i }>
-                                {
-                                    course.name
-                                        ?
-                                        <Link to={Routes.TESTSSTUDENT.replace( ':id', course.id )}>
-                                            <Card
-                                            title={ course.name }
+                        <Col xs={24} sm={12} md={8} style={{marginBottom: 30}} key={i}>
+                            {
+                                course.name
+                                    ?
+                                    <Link to={Routes.TESTSSTUDENT.replace(':id', course.id)}>
+                                        <Card
+                                            title={course.name}
                                             //onClick={<InfobyCourse courseId={course.id}/>}
                                         >
 
-                                            <Text type='secondary'>{ course.created_at }</Text>
+                                            <Text type='secondary'>{course.created_at}</Text>
                                             <br/>
                                         </Card>
-                                        </Link>
-                                        : <div style={ { textAlign: 'center' } }>
-                                            <Skeleton.Image style={ { width: 200 } } />
-                                            <Card title='' extra='' cover='' loading />
-                                        </div>
-                                }
-                            </Col>
-                        //: ''
-
-                    ) )
+                                    </Link>
+                                    : <div style={{textAlign: 'center'}}>
+                                        <Skeleton.Image style={{width: 200}}/>
+                                        <Card title='' extra='' cover='' loading/>
+                                    </div>
+                            }
+                        </Col>
+                    ))
                 }
             </Row>
+            }
         </>
     );
 };
-
 export default CourseListStudent;

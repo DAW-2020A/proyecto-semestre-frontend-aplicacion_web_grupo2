@@ -1,36 +1,99 @@
 import React, {useState} from 'react';
-import {Button, Col, Row} from "antd";
+import {Button, Col, message, Row} from "antd";
+import Routes from '../constants/routes';
 import {ArrowLeftOutlined, PlusOutlined} from "@ant-design/icons";
 import {mutate} from "swr";
 import InfobyCourse from "../components/InfobyCourse";
-import {Link, useParams} from 'react-router-dom';
-import {useInfoCourse} from "../data/useInfoCourse";
-import Routes from "../constants/routes";
+import {Link,useParams} from 'react-router-dom';
+import {translateMessage} from "../utils/translateMessage";
+import ModalComplete from "../components/ModalComplete";
+import ViewComplete from "../components/ViewComplete";
+import ModalMultipleChoice from "../components/ModalMultipleChoice";
+import ViewMChoice from "../components/ViewMChoice";
 
 
 
 const  InfoCourseTeacher=()=>{
 
+    const [showComplete, setShowComplete] = useState(false);
+    const [showMultipleChoice, setShowMultipleChoice] = useState(false);
     //const auth=useAuth();
     let {id}=(useParams());
-    console.log(id);
-    const courseId = useInfoCourse(id);
+
+    //const courseId = useCourseInfo(id);
+
+    const afterCreate = async () => {
+        try {
+            // show skeleton
+            await mutate('/activities', async activities => {
+                //return {data: [{}, ...activities.data]};
+            }, false);
+
+            await mutate('/activities');
+            setShowComplete(false); // close the modal
+        } catch (error) {
+            console.error(
+                'You have an error in your code or there are Network issues.',
+                error
+            );
+
+            message.error(translateMessage(error.message));
+        }
+    };
 
     return(
         <>
             <div>
                 <Row>
                     <Col span={6}>
-                        <Button type="text" icon={<ArrowLeftOutlined />}><Link to={Routes.HOME_TEACHER}>Regresar</Link></Button>
+                        <Link to={Routes.HOME_TEACHER}><Button type="text" icon={<ArrowLeftOutlined />}>Regresar</Button></Link>
                     </Col>
-                    <Col span={18} align={'right'}>
-                        <Button type="danger" icon={<PlusOutlined/>}><Link to={Routes.CREATETEST}>Crear una evaluación</Link></Button>
+                    <Col span={6}>
+                        <Button
+                            type="danger"
+                            icon={<PlusOutlined/>}
+                            onClick={() => {
+                                setShowComplete(true);
+                            }}>
+                            Modal para complete
+                        </Button>
+                    </Col>
+                    <Col span={6}>
+                        <Button
+                            type="danger"
+                            icon={<PlusOutlined/>}
+                            onClick={() => {
+                                setShowMultipleChoice(true);
+                            }}>
+                            Modal Selección Multiple
+                        </Button>
                     </Col>
                 </Row>
+
                 <br/>
                 <div>
                     <InfobyCourse courseId={id}/>
+                    <ModalComplete
+                        show={showComplete}
+                        close={ () => {
+                            setShowComplete( false );
+                        } }
+                        update={false}
+                        onSubmit={afterCreate}
+                    />
+                    <div >
 
+
+                    </div>
+                    <ModalMultipleChoice
+                        show={showMultipleChoice}
+                        close={ () => {
+                            setShowMultipleChoice( false );
+                        } }
+                        update={false}
+                        onSubmit={afterCreate}
+                    />
+                    <ViewMChoice />
                 </div>
             </div>
         </>

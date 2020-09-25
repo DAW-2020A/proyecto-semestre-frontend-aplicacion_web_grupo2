@@ -6,25 +6,26 @@ import CourseListStudent from "../components/CourseListStudent";
 import {useAuth} from "../providers/Auth";
 import ModalAddCourse from "../components/ModalAddCourse";
 import {mutate} from "swr";
-
+import {Link} from 'react-router-dom';
+import Routes from '../constants/routes';
 
 const StudentHomePage=()=>{
 
     const auth=useAuth();
-    const [showModalNewCourse, setShowModalNewCourse] = useState(false);
+    const [showModalAddCourse, setShowModalAddCourse] = useState(false);
 
     const {Title}=Typography;
 
     const afterCreate = async () => {
             await mutate('/student/courses');
-            setShowModalNewCourse(false); // close the modal
+            setShowModalAddCourse(false); // close the modal
     };
     return(
         <>
             <div className={"title"}>
                 <Row>
                     <Col span={6}>
-                        <Button type="text" icon={<SettingOutlined />}>Configuración Perfil</Button>
+                        <Link to={Routes.PROFILE}><Button type="text" icon={<SettingOutlined />}>Configuración Perfil</Button></Link>
                     </Col>
 
                     <Col span={12}>
@@ -38,7 +39,7 @@ const StudentHomePage=()=>{
                                 type="danger"
                                 icon={<PlusOutlined/>}
                                 onClick={() => {
-                                    setShowModalNewCourse(true);
+                                    setShowModalAddCourse(true);
                                 }}>
                                 Registrar un nuevo Curso
                             </Button>
@@ -79,9 +80,9 @@ const StudentHomePage=()=>{
                 </Row>
             </div>
             <ModalAddCourse
-                show={showModalNewCourse}
+                show={showModalAddCourse}
                 close={ () => {
-                    setShowModalNewCourse( false );
+                    setShowModalAddCourse( false );
                 } }
                 update={false}
                 onSubmit={afterCreate}

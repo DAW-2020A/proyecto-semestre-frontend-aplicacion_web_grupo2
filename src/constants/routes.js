@@ -12,12 +12,11 @@ const publicRoutes = {
   ABOUT: '/acerca-de',
   ANTD: '/antd',
   PROFILE: '/perfil',
-  HOME_TEACHER: '/mi-cuenta',
-  HOME_STUDENT:'/cuenta',
+  HOME_TEACHER: '/profesor',
+  HOME_STUDENT:'/estudiante',
   FIRSTPAGESTUDENT: '/bienvenida-estudiante',
   TESTSSTUDENT:'/cursos/:id',
-  TESTSTEACHER:'/profesor/cursos/:id',
-  CREATETEST:'/profesor/nueva-evaluacion',
+  TESTSTEACHER:'/curso/:id',
 };
 
 const privateRoutes = {

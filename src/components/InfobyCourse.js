@@ -12,18 +12,18 @@ const {Text} = Typography;
 
 const InfobyCourse = ({courseId}) => {
 
-    const info=useAuth().currentUser
+    const info = useAuth().currentUser
     console.log(courseId);
-    const {testsCourse,isLoading,isError} = useInfoCourse(courseId);
-    console.log("arreglo",testsCourse)
+    const {testsCourse, isLoading, isError} = useInfoCourse(courseId);
+    console.log("arreglo", testsCourse)
     if (isLoading) {
-        return <Row >
+        return <Row>
             {
                 [...new Array(9)].map((_, i) =>
                     <Col xs={24} sm={12} md={8} style={{marginBottom: 30}} key={i}>
                         <div style={{textAlign: 'center'}}>
                             <Skeleton.Image style={{width: 200}}/>
-                            <Card title='' extra='' cover='' loading />
+                            <Card title='' extra='' cover='' loading/>
                         </div>
                     </Col>
                 )
@@ -36,11 +36,10 @@ const InfobyCourse = ({courseId}) => {
     }
     console.log(testsCourse)
     return (
-    <>
-        {
-            testsCourse && info
-                 ?
-
+        <>
+            {
+                testsCourse && info
+                    ?
                     <>
                         <Row>
                             <Col span={8}>
@@ -51,93 +50,79 @@ const InfobyCourse = ({courseId}) => {
                                     <Col span={6} align={'center'}>
                                         <br/>
                                         <br/>
-                                        <Row>
-                                            <span>Docente de la materia</span>
-                                        </Row>
-                                        <Row>
-                                            <span>{testsCourse.user_id}</span>
-                                        </Row>
-                                        <Row>
-                                            <span>Codigo del curso</span>
-                                        </Row>
-                                        <Row>
-                                            <span>{testsCourse.code}</span>
-                                        </Row>
+                                        <div className="site-card-border-less-wrapper">
+                                            <Card title="Info. Materia" bordered={false} style={{width: 300}}>
+                                                <span>Docente de la materia: </span>
+                                                <span>{info.name}</span>
+                                                <br/>
+                                                <span>Codigo del curso: </span>
+                                                <span>{testsCourse.code}</span>
+                                            </Card>
+                                        </div>
                                     </Col>
                                 </div>
                             </Col>
-                        <Col span={16}>
-                        {
-                            info.role === "ROLE_TEACHER" ?
-                                <>
-                                <Col>
-                                    <Col>
-                                        <h4>Lista de estudiantes</h4>
-                                        {
-                                            testsCourse.students.data.map((student,i)=>(
-                                          <List key={i}>
-                                            <List.Item >{student.name} {student.lastname}</List.Item>
-                                            <List.Item >{student.email}</List.Item>
-                                          </List>
-                                        ))
-                                        }
-                                    </Col>
-                                <Col >
-                                    {
-                                        testsCourse.tests.data.map((test,i)=>(
-                                            <Col xs={ 24 } sm={ 12 } md={ 8 } style={ { marginBottom: 30 } } key={ i }>
-                                                {
-                                                    test.name
-                                                        ?
-                                                        <Card
-                                                            title={ test.name }
-                                                        >
+                            <Col span={16}>
+                                {
+                                    info.role === "ROLE_TEACHER" ?
+                                        <>
+                                            <Col>
+                                                <Col>
+                                                    <h4>Lista de estudiantes</h4>
+                                                    <table>
+                                                        <thead>
+                                                        <th>Nombre</th>
+                                                        <th>Correo</th>
+                                                        <th>Calificación</th>
+                                                        </thead>
+                                                        <tbody>
+                                                    {
+                                                        testsCourse.students.data.map((student, i) => (
+                                                                <tr key={i}>
+                                                                    <td>{student.name} {student.lastname} </td>
+                                                                    <td>{student.email}</td>
+                                                                </tr>
+                                                        ))
+                                                    }
+                                                                </tbody>
+                                                            </table>
 
-                                                            <Text type='secondary'>{ test.description }</Text>
-                                                            <br/>
-                                                        </Card>
-                                                        : <div style={ { textAlign: 'center' } }>
-                                                            <Skeleton.Image style={ { width: 200 } } />
-                                                            <Card title='' extra='' cover='' loading />
-                                                        </div>
-                                                }
-                                            </Col>
-                                        ))
-                                    }
-                                </Col>
-                                </Col>
-                                    </>
-                                :
-                                <Col>
-                                    {
-                                        testsCourse.tests_students.data.map((test,i)=>(
-                                            <Col xs={ 24 } sm={ 12 } md={ 8 } style={ { marginBottom: 30 } } key={ i }>
-                                                {
-                                                    test.name
-                                                        ?
-                                                        <Card
-                                                            title={ test.name }
-                                                        >
+                                                </Col>
+                                                <Col>
+                                                    {
+                                                        testsCourse.tests.data.map((test, i) => (
+                                                            <Col xs={24} sm={12} md={8} style={{marginBottom: 30}}
+                                                                 key={i}>
+                                                                {
+                                                                    test.name
+                                                                        ?
+                                                                        <Card
+                                                                            title={test.name}
+                                                                        >
 
-                                                            <Text type='secondary'>{ test.description }</Text>
-                                                            <br/>
-                                                        </Card>
-                                                        : <div style={ { textAlign: 'center' } }>
-                                                            <Skeleton.Image style={ { width: 200 } } />
-                                                            <Card title='' extra='' cover='' loading />
-                                                        </div>
-                                                }
+                                                                            <Text
+                                                                                type='secondary'>{test.description}</Text>
+                                                                            <br/>
+                                                                        </Card>
+                                                                        : <div style={{textAlign: 'center'}}>
+                                                                            <Skeleton.Image style={{width: 200}}/>
+                                                                            <Card title='' extra='' cover='' loading/>
+                                                                        </div>
+                                                                }
+                                                            </Col>
+                                                        ))
+                                                    }
+                                                </Col>
                                             </Col>
-                                        ))
-                                    }
-                                </Col>
-                        }
-                        </Col>
-                    </Row>
-                     </>
-                :''
-        }
-    </>
+                                        </>
+                                        : ''
+                                }
+                            </Col>
+                        </Row>
+                    </>
+                    : ''
+            }
+        </>
     );
 };
 

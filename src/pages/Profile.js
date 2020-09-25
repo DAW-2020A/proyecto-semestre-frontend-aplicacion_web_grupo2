@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import API from '../data';
 import {useAuth} from "../providers/Auth";
-import {Descriptions} from "antd";
-const ProfilePage = () =>{
+import {Descriptions, Button} from "antd";
+import {ArrowLeftOutlined} from '@ant-design/icons';
+import {Link} from "react-router-dom";
+import Routes from '../constants/routes';
 
-    const info=useAuth().currentUser
+const ProfilePage = () => {
+
+    const info = useAuth().currentUser
     console.log(useAuth().currentUser);
 
     return (
@@ -12,35 +16,31 @@ const ProfilePage = () =>{
             {
                 info ?
                     <div>
-            <Descriptions title="Información de mi Perfil">
-                <Descriptions.Item label="Nombre">{info.name}</Descriptions.Item>
-                <Descriptions.Item label="Correo">{info.email}</Descriptions.Item>
-                <Descriptions.Item label="Rol">{info.role}</Descriptions.Item>
-            </Descriptions>
-                {
-                    info.userable_type === 'App\\Admin' ?
-                        <Descriptions title="Administrador">
-                        <Descriptions.Item label="Credencial">
-                            {info.credential_number}
-                        </Descriptions.Item>
-                    </Descriptions>
-
-                        : <Descriptions title="Escritor">
-                            <Descriptions.Item label="Editorial">
-                                {info.editorial}
-                            </Descriptions.Item>
-                            <Descriptions.Item label="Biografía">
-                                {info.short_bio}
-                            </Descriptions.Item>
-                    </Descriptions>
-                }
+                        {
+                            info.role === 'ROLE_TEACHER'
+                                ?
+                                <Link to={Routes.HOME_TEACHER}><Button type="text" icon={<ArrowLeftOutlined/>}>Página
+                                    Principal</Button></Link>
+                                :
+                                <Link to={Routes.HOME_STUDENT}><Button type="text" icon={<ArrowLeftOutlined/>}>Página
+                                    Principal</Button></Link>
+                        }
+                        <br/>
+                        <br/>
+                        <h1>Perfil de Usuario</h1>
+                        <Descriptions>
+                            <Descriptions.Item label="Nombre">{info.name}</Descriptions.Item>
+                            <Descriptions.Item label="Apellido">{info.lastname}</Descriptions.Item>
+                            <Descriptions.Item label="Correo">{info.email}</Descriptions.Item>
+                            <Descriptions.Item label="Rol">{info.role}</Descriptions.Item>
+                        </Descriptions>
                     </div>
-                :
-        <h1 className='title'>
-            Profile Page
-        </h1>
+                    :
+                    <h1 className='title' style={{aling:"center"}}>
+                        La Sesion Ha Caducado... Inicie Nuevamente la Sesión
+                    </h1>
             }
-            </>
+        </>
     );
 }
 export default ProfilePage;

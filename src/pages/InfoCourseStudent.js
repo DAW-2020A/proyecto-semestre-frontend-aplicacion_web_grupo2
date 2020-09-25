@@ -1,32 +1,33 @@
 import React, {useState} from 'react';
 import {Button, Col, Row} from "antd";
-import { ArrowLeftOutlined} from "@ant-design/icons";
-import {mutate} from "swr";
-import InfobyCourse from "../components/InfobyCourse";
+import Routes from '../constants/routes';
+import {ArrowLeftOutlined} from "@ant-design/icons";
+import InfoCourseStudents from "../components/InfoCourseStudents";
 import {Link, useParams} from 'react-router-dom';
-import {useInfoCourse} from "../data/useInfoCourse";
-import Routes from "../constants/routes";
+import {useCourseInfo} from "../data/useCourseInfo";
 
 
-
-const  InfoCourseStudent=()=>{
+const InfoCourseStudent = () => {
 
     //const auth=useAuth();
-    let {id}=(useParams());
+    let {id} = (useParams());
     console.log(id);
-    const courseId = useInfoCourse(id);
+    const courseId = useCourseInfo(id);
 
-    return(
+    return (
         <>
             <div>
                 <Row>
                     <Col span={6}>
-                        <Button type="text" icon={<ArrowLeftOutlined />}><Link to={Routes.HOME_STUDENT}>Regresar</Link></Button>
+                        <Link to={Routes.HOME_STUDENT}><Button type="text" icon={<ArrowLeftOutlined/>}>Regresar</Button></Link>
+                    </Col>
+                    <Col span={10} style={{left: 45 }}>
+                        <h1 style={{color: 'red', justify:'center'}}>Pruebas del Curso</h1>
                     </Col>
                 </Row>
                 <br/>
                 <div>
-                    <InfobyCourse courseId={id}/>
+                    <InfoCourseStudents courseId={id}/>
                 </div>
             </div>
         </>

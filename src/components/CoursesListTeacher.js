@@ -44,7 +44,6 @@ const CourseList = (props) => {
 
     return (
         <>
-            <h1>Tarjetas</h1>
             <Row justify='center' gutter={30}>
                 {
                     courses.map( ( course, i ) => (

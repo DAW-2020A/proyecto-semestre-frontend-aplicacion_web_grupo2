@@ -55,7 +55,9 @@ const  InfoCourseTeacher=()=>{
 
                 <br/>
                 <div>
+
                     <InfobyCourse courseId={id}/>
+
                     <ModalComplete
                         show={showComplete}
                         close={ () => {

@@ -16,7 +16,8 @@ const publicRoutes = {
   HOME_STUDENT:'/cuenta',
   FIRSTPAGESTUDENT: '/bienvenida-estudiante',
   TESTSSTUDENT:'/cursos/:id',
-  TESTSTEACHER:'/cursos/:id',
+  TESTSTEACHER:'/profesor/cursos/:id',
+  CREATETEST:'/profesor/nueva-evaluacion',
 };
 
 const privateRoutes = {

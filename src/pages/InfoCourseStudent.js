@@ -3,8 +3,9 @@ import {Button, Col, Row} from "antd";
 import { ArrowLeftOutlined} from "@ant-design/icons";
 import {mutate} from "swr";
 import InfobyCourse from "../components/InfobyCourse";
-import {useParams} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import {useInfoCourse} from "../data/useInfoCourse";
+import Routes from "../constants/routes";
 
 
 
@@ -20,7 +21,7 @@ const  InfoCourseStudent=()=>{
             <div>
                 <Row>
                     <Col span={6}>
-                        <Button type="text" icon={<ArrowLeftOutlined />}>Regresar</Button>
+                        <Button type="text" icon={<ArrowLeftOutlined />}><Link to={Routes.HOME_STUDENT}>Regresar</Link></Button>
                     </Col>
                 </Row>
                 <br/>
@@ -32,4 +33,4 @@ const  InfoCourseStudent=()=>{
 
     )
 }
-export default InfoCourseStudent
+export default InfoCourseStudent;
